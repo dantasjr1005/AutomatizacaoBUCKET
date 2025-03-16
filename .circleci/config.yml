@@ -3,7 +3,7 @@ version: 2.1
 executors:
   google-executor:
     docker:
-      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Escolha a imagem de Docker que melhor se adapta ao seu projeto
+      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # A imagem já contém o Google Cloud SDK
     working_directory: ~/repo
 
 jobs:
@@ -12,13 +12,7 @@ jobs:
     steps:
       - checkout  # Faz o checkout do código do repositório
 
-      - run:
-          name: Install Google Cloud SDK
-          command: |
-            curl https://sdk.cloud.google.com | bash
-            source $HOME/google-cloud-sdk/path.bash.inc
-            gcloud --version  # Verifica a versão do SDK
-            
+      # Passo 1: Autenticar o Google Cloud
       - run:
           name: Authenticate Google Cloud
           command: |
@@ -26,19 +20,22 @@ jobs:
             echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > $HOME/gcp-credentials.json
             # Ativar a conta de serviço
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
-            gcloud config set project $GOOGLE_CLOUD_PROJECT  # Defina o projeto, se necessário
+            # Definir o projeto do Google Cloud
+            gcloud config set project $BUCKETAUT
 
+      # Passo 2: Criar o bucket no Google Cloud Storage
       - run:
           name: Create Bucket on GCS
           command: |
-            # Criação do bucket (substitua pelo nome desejado)
-            BUCKET_NAME="your-bucket-name"
+            # Substitua pelo nome do bucket
+            BUCKET_NAME="meubucket"
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
-            
+
+      # Passo 3: Upload de arquivos para o GCS
       - run:
           name: Upload files to GCS
           command: |
-            # Substitua pelo caminho do arquivo e o nome do bucket
+            # Substitua pelo caminho do arquivo que você quer fazer upload
             gsutil cp path/to/your/file gs://$BUCKET_NAME/
 
 workflows:
@@ -46,3 +43,10 @@ workflows:
   deploy:
     jobs:
       - build
+
+contexts:
+  gordon:
+    # Defina as variáveis de ambiente no contexto
+    environment_variables:
+      GOOGLE_APPLICATION_CREDENTIALS: "SuaChaveEmBase64Aqui"
+      BUCKETAUT: original-nation-453118-a7
