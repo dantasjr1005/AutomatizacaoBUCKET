@@ -3,7 +3,7 @@ version: 2.1
 executors:
   google-executor:
     docker:
-      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Escolha a imagem de Docker que melhor se adapta ao seu projeto
+      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Imagem já contém o SDK
     working_directory: ~/repo
 
 jobs:
@@ -13,20 +13,13 @@ jobs:
       - checkout  # Faz o checkout do código do repositório
 
       - run:
-          name: Install Google Cloud SDK
-          command: |
-            curl https://sdk.cloud.google.com | bash
-            source $HOME/google-cloud-sdk/path.bash.inc
-            gcloud --version  # Verifica a versão do SDK
-            
-      - run:
           name: Authenticate Google Cloud
           command: |
             # Decodificar e armazenar a chave da conta de serviço
             echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > $HOME/gcp-credentials.json
             # Ativar a conta de serviço
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
-            gcloud config set project $GOOGLE_CLOUD_PROJECT  # Defina o projeto, se necessário
+            gcloud config set project $GOOGLE_CLOUD_PROJECT  # Define o projeto, se necessário
 
       - run:
           name: Create Bucket on GCS
@@ -34,7 +27,7 @@ jobs:
             # Criação do bucket (substitua pelo nome desejado)
             BUCKET_NAME="your-bucket-name"
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
-            
+
       - run:
           name: Upload files to GCS
           command: |
@@ -46,3 +39,4 @@ workflows:
   deploy:
     jobs:
       - build
+
