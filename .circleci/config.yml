@@ -44,12 +44,12 @@ jobs:
           name: Create Bucket on GCS
           command: |
             BUCKET_NAME=bucket10057564jr65190
-            gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
+            gsutil mb gs://$BUCKET_NAME  # Cria o bucket no GCS
 
       - run:
           name: Upload files to GCS
           command: |
-            gsutil -m cp -r * "gs://$BUCKET_NAME/"
+            gsutil -m cp -r * "gs://$BUCKET_NAME"
 
 workflows:
   version: 2
