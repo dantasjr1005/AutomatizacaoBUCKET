@@ -18,12 +18,14 @@ jobs:
             # Verificando o conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS
             echo "Conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS:"
             echo "$GOOGLE_APPLICATION_CREDENTIALS"  # Isso deve exibir a chave JSON
-            # Criar o arquivo de chave JSON
-            echo "$GOOGLE_APPLICATION_CREDENTIALS" > $HOME/gcp-credentials.json
+
+            # Criar o arquivo de chave JSON temporário
+            echo "$GOOGLE_APPLICATION_CREDENTIALS" > /tmp/gcp-credentials.json
             # Verificar se o arquivo foi criado corretamente
-            cat $HOME/gcp-credentials.json
-            # Ativar a conta de serviço
-            gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
+            cat /tmp/gcp-credentials.json
+
+            # Ativar a conta de serviço usando a chave temporária
+            gcloud auth activate-service-account --key-file=/tmp/gcp-credentials.json
             gcloud config set project original-nation-453118-a7  # Defina o projeto, se necessário
 
       - run:
@@ -44,6 +46,9 @@ workflows:
       - build
 
 context: gordon
+
+
+
 
 
 
