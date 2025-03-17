@@ -15,18 +15,19 @@ jobs:
       - run:
           name: Authenticate Google Cloud
           command: |
-            # Verificando o conteúdo da variável azul_azul
-            echo "Conteúdo da variável azul_azul:"
-            echo "$azul_azul"  # Isso deve exibir a chave JSON
+            # Verificando o conteúdo da variável MY_GOOGLE_CREDENTIALS
+            echo "Conteúdo da variável MY_GOOGLE_CREDENTIALS:"
+            echo "$MY_GOOGLE_CREDENTIALS"  # Isso deve exibir a chave JSON
+            echo "$azul"  # Isso deve exibir a chave JSON
 
             # Garantir que a variável não está vazia
-            if [ -z "$azul_azul" ]; then
-              echo "A variável azul_azul está vazia!"
+            if [ -z "$MY_GOOGLE_CREDENTIALS" ]; then
+              echo "A variável MY_GOOGLE_CREDENTIALS está vazia!"
               exit 1
             fi
 
             # Criar o arquivo de chave JSON temporário
-            echo "azul_azul" | base64 -d > /tmp/gcp-credentials.json
+            echo "$MY_GOOGLE_CREDENTIALS" | base64 -d > /tmp/gcp-credentials.json
 
             # Verificar se o arquivo foi criado corretamente
             cat /tmp/gcp-credentials.json
@@ -53,6 +54,7 @@ workflows:
       - build
 
 context: gordon
+
 
 
 
