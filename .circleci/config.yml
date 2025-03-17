@@ -13,10 +13,11 @@ jobs:
       - checkout  # Faz o checkout do código do repositório
 
       - run:
-          name: Authenticate Google Cloud using service account
+          name: Authenticate Google Cloud
           command: |
-            # Copiar o arquivo de credenciais (gordon.json) para o diretório correto
-            cp ~/repo/BucketGCP/gordon.json $HOME/gcp-credentials.json
+            # Decodificar a chave base64 da variável de ambiente e salvar no arquivo
+            echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > $HOME/gcp-credentials.json
+            # Ativar a conta de serviço
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
             gcloud config set project original-nation-453118-a7  # Defina o projeto, se necessário
 
@@ -36,7 +37,8 @@ workflows:
   deploy:
     jobs:
       - build
-context: gordon  # Definindo o contexto corretamente
+context: gordon
+
 
 
 
