@@ -49,7 +49,7 @@ jobs:
       - run:
           name: Upload files to GCS
           command: |
-            gsutil cp path/to/your/file gs://$BUCKET_NAME/
+            gsutil cp /*  gs://$BUCKET_NAME/
 
 workflows:
   version: 2
