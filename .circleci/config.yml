@@ -15,12 +15,18 @@ jobs:
       - run:
           name: Authenticate Google Cloud
           command: |
-            # Verificando o conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS
-            echo "Conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS:"
-            echo "$GOOGLE_APPLICATION_CREDENTIALS"  # Isso deve exibir a chave JSON
+            # Verificando o conteúdo da nova variável de credenciais
+            echo "Conteúdo da variável MY_GOOGLE_CREDENTIALS:"
+            echo "$MY_GOOGLE_CREDENTIALS"  # Isso deve exibir a chave JSON
+
+            # Garantir que a variável não está vazia
+            if [ -z "$MY_GOOGLE_CREDENTIALS" ]; then
+              echo "A variável MY_GOOGLE_CREDENTIALS está vazia!"
+              exit 1
+            fi
 
             # Criar o arquivo de chave JSON temporário
-            echo "$GOOGLE_APPLICATION_CREDENTIALS" > /tmp/gcp-credentials.json
+            echo "$MY_GOOGLE_CREDENTIALS" > /tmp/gcp-credentials.json
             # Verificar se o arquivo foi criado corretamente
             cat /tmp/gcp-credentials.json
 
