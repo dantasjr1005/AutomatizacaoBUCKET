@@ -13,6 +13,10 @@ jobs:
       - checkout  # Faz o checkout do código do repositório
 
       - run:
+          name: Debug Environment Variables
+          command: env | grep azul || echo "azul não está definida!"
+
+      - run:
           name: Authenticate Google Cloud
           command: |
             # Verificando o conteúdo da variável MY_GOOGLE_CREDENTIALS
