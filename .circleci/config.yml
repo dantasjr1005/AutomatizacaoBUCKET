@@ -3,11 +3,7 @@ version: 2.1
 executors:
   google-executor:
     docker:
-<<<<<<< HEAD
       - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
-=======
-      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Imagem já contém o SDK
->>>>>>> 3542b1361c34127473c95d1366c9892dfa27f7aa
     working_directory: ~/repo
 
 jobs:
@@ -23,19 +19,11 @@ jobs:
             echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > $HOME/gcp-credentials.json
             # Ativar a conta de serviço
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
-<<<<<<< HEAD
             gcloud config set project original-nation-453118-a7  # Defina o projeto, se necessário
-=======
-            gcloud config set project original-nation-453118-a7  # Define o projeto, se necessário
->>>>>>> 3542b1361c34127473c95d1366c9892dfa27f7aa
 
       - run:
           name: Create Bucket on GCS
           command: |
-<<<<<<< HEAD
-=======
-            # Criação do bucket (substitua pelo nome desejado)
->>>>>>> 3542b1361c34127473c95d1366c9892dfa27f7aa
             BUCKET_NAME=my-bucket
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
 
@@ -49,12 +37,8 @@ workflows:
   deploy:
     jobs:
       - build
-<<<<<<< HEAD
 context: gordon
 
 
-=======
-context: gordon  # Definindo o contexto corretamente dentro do deploy
->>>>>>> 3542b1361c34127473c95d1366c9892dfa27f7aa
 
 
