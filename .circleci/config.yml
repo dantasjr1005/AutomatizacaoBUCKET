@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Authenticate Google Cloud
           command: |
-            # Verificando o conteúdo da nova variável de credenciais
+            # Verificando o conteúdo da variável MY_GOOGLE_CREDENTIALS
             echo "Conteúdo da variável MY_GOOGLE_CREDENTIALS:"
             echo "$MY_GOOGLE_CREDENTIALS"  # Isso deve exibir a chave JSON
 
@@ -26,13 +26,14 @@ jobs:
             fi
 
             # Criar o arquivo de chave JSON temporário
-            echo "$MY_GOOGLE_CREDENTIALS" > /tmp/gcp-credentials.json
+            echo "$MY_GOOGLE_CREDENTIALS" | base64 -d > /tmp/gcp-credentials.json
+
             # Verificar se o arquivo foi criado corretamente
             cat /tmp/gcp-credentials.json
 
             # Ativar a conta de serviço usando a chave temporária
             gcloud auth activate-service-account --key-file=/tmp/gcp-credentials.json
-            gcloud config set project original-nation-453118-a7  # Defina o projeto, se necessário
+            gcloud config set project original-nation-453118-a7  # Defina o seu ID do projeto
 
       - run:
           name: Create Bucket on GCS
@@ -52,11 +53,6 @@ workflows:
       - build
 
 context: gordon
-
-
-
-
-
 
 
 
