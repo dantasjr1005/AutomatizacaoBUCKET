@@ -15,11 +15,12 @@ jobs:
       - run:
           name: Authenticate Google Cloud
           command: |
-            # Verificar o conteúdo da variável de ambiente antes de escrever o arquivo
-            echo "Verificando a variável GOOGLE_APPLICATION_CREDENTIALS:"
-            echo "$GOOGLE_APPLICATION_CREDENTIALS"  # Isso pode ser útil para depuração
-            echo "$GOOGLE_APPLICATION_CREDENTIALS" > $HOME/gcp-credentials.json  # Criar o arquivo de chave JSON
-            # Verifique se o arquivo foi criado corretamente
+            # Verificando o conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS
+            echo "Conteúdo da variável GOOGLE_APPLICATION_CREDENTIALS:"
+            echo "$GOOGLE_APPLICATION_CREDENTIALS"  # Isso deve exibir a chave JSON
+            # Criar o arquivo de chave JSON
+            echo "$GOOGLE_APPLICATION_CREDENTIALS" > $HOME/gcp-credentials.json
+            # Verificar se o arquivo foi criado corretamente
             cat $HOME/gcp-credentials.json
             # Ativar a conta de serviço
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
@@ -28,7 +29,7 @@ jobs:
       - run:
           name: Create Bucket on GCS
           command: |
-            BUCKET_NAME=jrdf-bucket
+            BUCKET_NAME=my-bucket
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
 
       - run:
@@ -43,6 +44,7 @@ workflows:
       - build
 
 context: gordon
+
 
 
 
