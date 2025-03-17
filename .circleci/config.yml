@@ -3,7 +3,7 @@ version: 2.1
 executors:
   google-executor:
     docker:
-      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Imagem já contém o SDK
+      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
     working_directory: ~/repo
 
 jobs:
@@ -13,25 +13,22 @@ jobs:
       - checkout  # Faz o checkout do código do repositório
 
       - run:
-          name: Authenticate Google Cloud
+          name: Authenticate Google Cloud using service account
           command: |
-            # Decodificar e armazenar a chave da conta de serviço
-            echo $GOOGLE_APPLICATION_CREDENTIALS | base64 -d > $HOME/gcp-credentials.json
-            # Ativar a conta de serviço
+            # Copiar o arquivo de credenciais (gordon.json) para o diretório correto
+            cp ~/repo/BucketGCP/gordon.json $HOME/gcp-credentials.json
             gcloud auth activate-service-account --key-file=$HOME/gcp-credentials.json
-            gcloud config set project original-nation-453118-a7  # Define o projeto, se necessário
+            gcloud config set project original-nation-453118-a7  # Defina o projeto, se necessário
 
       - run:
           name: Create Bucket on GCS
           command: |
-            # Criação do bucket (substitua pelo nome desejado)
             BUCKET_NAME=my-bucket
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
 
       - run:
           name: Upload files to GCS
           command: |
-            # Substitua pelo caminho do arquivo e o nome do bucket
             gsutil cp path/to/your/file gs://$BUCKET_NAME/
 
 workflows:
@@ -39,6 +36,7 @@ workflows:
   deploy:
     jobs:
       - build
-context: gordon  # Definindo o contexto corretamente dentro do deploy
+context: gordon  # Definindo o contexto corretamente
+
 
 
