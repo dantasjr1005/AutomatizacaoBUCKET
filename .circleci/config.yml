@@ -16,7 +16,7 @@ jobs:
           name: Authenticate Google Cloud
           command: |
             # Verificando o conteúdo da variável MY_GOOGLE_CREDENTIALS
-            echo "Conteúdo da variável MY_GOOGLE_CREDENTIALS:"
+            echo "Conteúdo da variável {MY_GOOGLE_CREDENTIALS}:"
             echo "$MY_GOOGLE_CREDENTIALS"  # Isso deve exibir a chave JSON
 
             # Garantir que a variável não está vazia
