@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Create Bucket on GCS
           command: |
-            BUCKET_NAME=my-bucket2
+            BUCKET_NAME=bucket10057564jr
             gsutil mb gs://$BUCKET_NAME/  # Cria o bucket no GCS
 
       - run:
