@@ -1,6 +1,10 @@
 # AutomatizacaoBUCKET
 Automatizar uma criação de bucket gcp 
 
+
+![image](https://github.com/user-attachments/assets/e6b141a3-daae-49ad-9265-a65f3a6d0611)
+
+
 #Este é o número da versão da configuração do CircleCI. A versão 2.1 é a mais recente
 version: 2.1  
 
@@ -33,6 +37,8 @@ Decodificação da variável base64: O valor da variável MY_GOOGLE_CREDENTIALS 
 Verificação do arquivo JSON: O comando cat é utilizado para garantir que o arquivo de credenciais foi criado corretamente.
 
 Autenticação: A conta de serviço do Google Cloud é ativada usando o comando gcloud auth activate-service-account, passando o arquivo de chave JSON decodificado. Depois, a configuração do projeto do Google Cloud é definida com gcloud config set project.
+
+
 
 
 
@@ -95,5 +101,29 @@ workflows:
 
 
 oberservação : Você deve prestar bastante atenção na criação da variavel e na escolher do nome do Bucket pois uma vez ja criado já tera o nome que você escolher , caso houver erro depois da criação !
+
+
+![image](https://github.com/user-attachments/assets/75ac82b7-1c40-44b4-9da5-eacef9359932)
+
+A pipeline foi configurada para automatizar o processo de criação de um bucket no Google Cloud Storage (GCS) e o upload de arquivos para ele. O fluxo é o seguinte:
+
+Autenticação no Google Cloud: A pipeline usa as credenciais armazenadas em uma variável de ambiente para se autenticar no Google Cloud, garantindo que tenha permissão para criar e gerenciar recursos.
+
+Criação de um Bucket no GCS: Depois de autenticado, o pipeline cria um bucket no Google Cloud Storage, onde os arquivos serão armazenados.
+
+Upload de Arquivos: Todos os arquivos do repositório são copiados para o bucket recém-criado no GCS.
+
+Com isso, conseguimos automatizar a criação do bucket e o upload de arquivos, facilitando o trabalho e aumentando a eficiência do fluxo de CI/CD.
+
+
+
+
+![image](https://github.com/user-attachments/assets/f611e16f-00ef-4727-bce7-c6b8ab37dd18)
+
+aqui temos o resultado final .. no Console mostrando a criação e o armazenamento do Bucket
+
+
+
+
 
      
